@@ -41,15 +41,33 @@ Cada modulo debe usar un `group_id` distinto.
 
 ```json
 {
-  "appearance_id": "v01-t0001",
-  "video_id": "v01",
-  "track_id": 1,
-  "embedding": [512 numeros, normalizado L2],
-  "crop_path": "data/crops/v01-t0001.jpg",
-  "t_start": 12.4,
-  "t_end": 15.9
+  "schema_version": 1,
+  "event_id": "<stream_id>:<inspector_id>:completed",
+  "stream_id": "d045b3e1...",
+  "cycle": 0,
+  "strategy": "fixed",
+  "track": {
+    "track_id": 1,
+    "start_time": 12.4,
+    "end_time": 15.9,
+    "frame_count": 25,
+    "representative_embedding": [512 numeros, normalizado L2, o null],
+    "mean_detection_confidence": 0.9
+  },
+  "clip_name": "P1E_S1_C1",
+  "model": "buffalo_sc",
+  "representative": {
+    "crop_url": "/crops/1/0.jpg",
+    "image_url": "/frames/1.jpg",
+    "source_frame_index": 310,
+    "bbox": [2.0, 3.0, 12.0, 13.0]
+  }
 }
 ```
+
+Lo publica `face-rec-demo --kafka` (repo `face-rec`) con la misma estructura de sus
+`tracks.jsonl`. La key es `event_id`, y el modulo 3 debe ignorar un `event_id` repetido.
+En `detecciones`, `appearance_id` lleva ese mismo `event_id`.
 
 ## Mensaje del topic `detecciones` (lo publica el modulo 3)
 
